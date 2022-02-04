@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
@@ -11,7 +12,9 @@ import { MessageService } from './message.service';
 })
 export class HeroService {
 
-  constructor(private messageService: MessageService) { }
+  constructor(
+    private messageService: MessageService,
+    private http: HttpClient) { }
 
   getHeroes(): Observable<Hero[]> {
     const heroes = of (HEROES);
@@ -23,5 +26,10 @@ export class HeroService {
     const HERO = HEROES.find(h => h.id === id)!;
     this.messageService.add(`HeroService: fetched hero id=${id}`);
     return of(HERO);
+  }
+
+  /** Log a HeroService message with the MessageService */
+  private log(message: string) {
+  this.messageService.add(`HeroService: ${message}`);
   }
 }
